@@ -12,6 +12,7 @@ Before running any command make sure you are in the `/docker`directory.
 	```
 	./downloadPackages.sh
 	```
+	> Windows script not available yet. If you are on windows manually download the files with the links inside this file and place them in `files/pkg`.
 
 2. Building the images. Make sure you already have the required files in `files/pkg` before building:
 
