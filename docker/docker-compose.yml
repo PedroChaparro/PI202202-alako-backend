@@ -2,7 +2,7 @@ version: '3'
 
 services:
   hadoop:
-    image: alako/hadoopMaster
+    image: alako/hadoopmaster
     container_name: hadoop
     restart: unless-stopped
     ports:
@@ -12,7 +12,7 @@ services:
       - spark
 
   spark:
-    image: alako/sparkMaster
+    image: alako/sparkmaster
     container_name: spark
     restart: unless-stopped
     ports:

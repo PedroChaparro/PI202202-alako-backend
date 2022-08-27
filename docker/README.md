@@ -20,13 +20,13 @@ Before running any command make sure you are in the `/docker`directory.
 	To build __Hadoop Master Node__:
 
 	```
-	docker build -f ./hadoop/Dockerfile -t alako/hadoopMaster .
+	docker build -f ./hadoop/Dockerfile -t alako/hadoopmaster .
 	```
 
 	To build __Spark Master Node__:
 
 	```
-	docker build -f ./spark/Dockerfile -t alako/sparkMaster .
+	docker build -f ./spark/Dockerfile -t alako/sparkmaster .
 	```
 
 ## Run
@@ -38,6 +38,6 @@ Before running any command make sure you are in the `/docker`directory.
 	```
 
 2. Check Hadoop and Spark state by browsing the web monitors:
-	- Hadoop http://localhost:9870
+	- Hadoop http://localhost:9870/
 	- Spark http://localhost:8080/
 
