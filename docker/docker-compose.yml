@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  hadoop:
+    image: alako/hadoop1
+    container_name: hadoop
+    restart: unless-stopped
+    ports:
+      - '9870:9870' # web monitor
+      - '9000:9000' # master slot
+    links:
+      - spark
+
+  spark:
+    image: alako/spark1
+    container_name: spark
+    restart: unless-stopped
+    ports:
+      - '8080:8080' # web monitor
+      - '7077:7077' # master slot
+        #volumes:
+        #- ../wsp-db:/data/db
+
