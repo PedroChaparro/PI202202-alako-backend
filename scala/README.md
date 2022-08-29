@@ -10,28 +10,28 @@
 1. Install __sbt__:
 
 	```
-wget https://github.com/sbt/sbt/releases/download/v1.7.1/sbt-1.7.1.tgz
-tar -xzf sbt-1.7.1.tgz -C /opt/.
+	wget https://github.com/sbt/sbt/releases/download/v1.7.1/sbt-1.7.1.tgz
+	tar -xzf sbt-1.7.1.tgz -C /opt/.
 	```
 
 2. Project structure, your program goes in `src/main/scala/yourprogram.scala`:
 
 	```
-scalaProject
-├── build.sbt
-├── target/
-├── project/
-│   └── build.properties
-└── src/
-    └── main/
-        └── scala/
-            └── Search.scala
+	scalaProject
+	├── build.sbt
+	├── target/
+	├── project/
+	│   └── build.properties
+	└── src/
+	    └── main/
+		    └── scala/
+	            └── Search.scala
 	```
 
 3. Install dependencies and build:
 
 	```
-sbt package
+	sbt package
 	```
 
 	A __.jar__ file should be create inside `target/scala-2.12/` directory.
@@ -39,7 +39,7 @@ sbt package
 4. Run:
 
 	```
-spark-submit --class CLASS --master SPARKMASTER FILE
+	spark-submit --class CLASS --master SPARKMASTER FILE
 	```
 
 	- CLASS. Must be a class in the scala file.
@@ -49,6 +49,6 @@ spark-submit --class CLASS --master SPARKMASTER FILE
 	Example:
 
 	```
-spark-submit --class "SparkPi" --master spark://deb11spark:7077 ./target/scala-2.12/spark-sample_2.12-0.1.jar
+	spark-submit --class "SparkPi" --master spark://deb11spark:7077 ./target/scala-2.12/spark-sample_2.12-0.1.jar
 	```
 
