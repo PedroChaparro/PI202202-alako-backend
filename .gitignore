@@ -1,2 +1,3 @@
 *.tar.gz
 *.tgz
+scala/project/target/**
