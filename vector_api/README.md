@@ -33,3 +33,11 @@ Bottle package has no dependencies other than the Python Standart Library. [See 
 ```
 pip install -r requirements.txt
 ```
+
+### Executing
+
+To start the API run:
+
+```
+python ./src/api.py
+```
