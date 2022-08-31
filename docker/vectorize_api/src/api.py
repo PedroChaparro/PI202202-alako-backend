@@ -17,4 +17,4 @@ def index():
         response.status = 400
         return {'error': True, 'message': 'Criteria string was not provided'}
 
-run(host = 'localhost', port='5050', debug=True)
+run(host = '0.0.0.0', port='5050', debug=True)

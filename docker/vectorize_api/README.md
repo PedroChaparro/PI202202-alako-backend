@@ -46,7 +46,7 @@ python ./src/api.py
 
 ### Build the image
 
-**Note:** If you want to access the API on your computer (outside the container) you must change hots to `0.0.0.0` on `./src/api.py` file, otherwise, API just can be accessed inside the container.
+**Note:** If you want the API be only accessible inside the container change `0.0.0.0` to `localhost` as host in `./src/api.py` file.
 
 From `./vectorize_api` folder:
 
