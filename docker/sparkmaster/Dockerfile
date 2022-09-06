@@ -13,13 +13,15 @@ WORKDIR /root/Downloads
 COPY ./files/pkg/openjdk-17.0.2_linux-x64_bin.tar.gz /root/Downloads/.
 COPY ./files/pkg/scala-2.12.16.tgz                   /root/Downloads/.
 COPY ./files/pkg/spark-3.3.0-bin-hadoop3.tgz         /root/Downloads/.
+COPY ./files/pkg/sbt-1.7.1.tgz                       /root/Downloads/.
 
 # extract
 
-RUN tar -xzf spark-3.3.0-bin-hadoop3.tgz -C /opt/.
+RUN tar -xzf spark-3.3.0-bin-hadoop3.tgz         -C /opt/.
 RUN mv /opt/spark-3.3.0-bin-hadoop3 /opt/spark-3.3.0
-RUN tar -xzf scala-2.12.16.tgz -C /opt/.
+RUN tar -xzf scala-2.12.16.tgz                   -C /opt/.
 RUN tar -xzf openjdk-17.0.2_linux-x64_bin.tar.gz -C /opt/.
+RUN tar -xzf sbt-1.7.1.tgz                       -C /opt/.
 
 # clean
 
@@ -28,7 +30,7 @@ RUN rm -r /root/Downloads
 # copy config files
 
 COPY ./files/.bashrc /root/.bashrc
-COPY ./spark/init.sh /opt/init.sh
+COPY ./sparkmaster/init.sh /opt/init.sh
 RUN chmod u+x /opt/init.sh
 
 # env

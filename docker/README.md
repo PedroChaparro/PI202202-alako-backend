@@ -26,7 +26,13 @@ Before running any command make sure you are in the `/docker`directory.
 	To build __Spark Master Node__:
 
 	```
-	docker build -f ./spark/Dockerfile -t alako/sparkmaster .
+	docker build -f ./sparkmaster/Dockerfile -t alako/sparkmaster .
+	```
+
+	To build __Spark Worker Node__:
+
+	```
+	docker build -f ./sparkworker/Dockerfile -t alako/sparkworker .
 	```
 
 ## Run

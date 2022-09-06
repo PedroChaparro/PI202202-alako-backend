@@ -28,7 +28,7 @@ RUN rm -r /root/Downloads
 # copy config files
 
 COPY ./files/.bashrc /root/.bashrc
-COPY ./sparkWorker/init.sh /opt/init.sh
+COPY ./sparkworker/init.sh /opt/init.sh
 RUN chmod u+x /opt/init.sh
 
 # env

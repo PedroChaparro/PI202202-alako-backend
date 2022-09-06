@@ -38,8 +38,8 @@ COPY ./hadoop/hdfs-site.xml /opt/hadoop-3.3.3/etc/hadoop/hdfs-site.xml
 COPY ./hadoop/init.sh /opt/init.sh
 COPY ./hadoop/start-dfs.sh /opt/hadoop-3.3.3/sbin/start-dfs.sh
 
-RUN mkdir -p /var/opt/hadoop/namenode
-RUN mkdir -p /var/opt/hadoop/datanode
+RUN mkdir -p /var/opt/hdfs/namenode
+RUN mkdir -p /var/opt/hdfs/datanode
 RUN chmod u+x /opt/init.sh
 
 # env
@@ -62,7 +62,7 @@ ENV PATH=$PATH:$JAVA_HOME/bin
 
 # setup HDFS (Hadoop file system)
 
-RUN hdfs namenode -format
+# RUN hdfs namenode -format
 
 # init script
 
