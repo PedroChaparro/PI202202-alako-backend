@@ -1,6 +1,9 @@
 version: "3"
 
 services:
+
+  # hadoop
+
   hadoopmaster:
     image: alako/hadoopmaster
     hostname: hadoopmaster
@@ -10,14 +13,34 @@ services:
       - "9870:9870" # web monitor
       - "9000:9000" # master slot
     volumes:
-      - ./hdfs:/var/opt/hdfs
-      - ./data:/data
+      - ./hdfs/master:/var/opt/hdfs
+      - "./hadoop/start-dfs-namenode.sh:/opt/hadoop-3.3.3/sbin/start-dfs-namenode.sh:ro"
+      - "./hadoop/start-dfs-secondary.sh:/opt/hadoop-3.3.3/sbin/start-dfs-secondary.sh:ro"
+      - "./hadoop/start-dfs-datanode.sh:/opt/hadoop-3.3.3/sbin/start-dfs-datanode.sh:ro"
+      - "./hadoop/init.sh:/opt/init.sh:ro"
+
+  hadoopworker:
+    image: alako/hadoopmaster
+    container_name: hadoopworker
+    restart: unless-stopped
+    depends_on:
+      - "hadoopmaster"
+    volumes:
+      - ./hdfs/worker:/var/opt/hdfs
+      - "./hadoop/start-dfs-datanode.sh:/opt/hadoop-3.3.3/sbin/start-dfs-datanode.sh:ro"
+      - "./hadoopworker/init.sh:/opt/init.sh:ro"
+
+  # spark
 
   sparkmaster:
     image: alako/sparkmaster
     hostname: sparkmaster
     container_name: sparkmaster
     restart: unless-stopped
+    depends_on:
+      - "hadoopmaster"
+    volumes:
+      - "./sparkmaster/init.sh:/opt/init.sh:ro"
     ports:
       - "8080:8080" # web monitor
       - "7077:7077" # master slot
@@ -27,6 +50,8 @@ services:
     image: alako/sparkworker
     container_name: sparkworker
     restart: unless-stopped
+    volumes:
+      - "./sparkworker/init.sh:/opt/init.sh:ro"
     depends_on:
-      - "hadoopmaster"
       - "sparkmaster"
+

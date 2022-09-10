@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   hadoopfilecopy:
@@ -7,9 +7,8 @@ services:
     container_name: hadoopfilecopy
     restart: "no"
     volumes:
-      - ./hadoop:/script     # get the script
-      - ./files/data:/data   # get the data
-      - ./hdfs:/var/opt/hdfs # external Hadoop File System
+      - ./hdfs/master:/var/opt/hdfs # external Hadoop File System
+      - ./hadoop/add-file.sh:/opt/add-file.sh:ro # get the script
+      - ./files/data:/data # get the data
     command:
-      - /bin/bash
-      - "/script/add-file.sh"
+      - /opt/add-file.sh

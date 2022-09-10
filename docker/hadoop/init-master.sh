@@ -1,10 +1,10 @@
 #!/bin/bash
 
 FAIL=0
-RED="\033[0;31m"
-GREEN="\033[0;32m"
-CYAN="\033[0;36m"
 NC="\033[0m"
+RED="\033[0;31m"
+CYAN="\033[0;36m"
+GREEN="\033[0;32m"
 
 # ssh daemon
 /usr/sbin/sshd 2>&1 &
@@ -18,7 +18,8 @@ pidlist="$pidlist $!"
 pidlist="$pidlist $!"
 
 # datanode
-#/opt/hadoop-3.3.3/sbin/custom-start-dfs-3.sh 2>&1 & | while read line; do echo "[] $line"; done
+/opt/hadoop-3.3.3/sbin/start-dfs-datanode.sh 2>&1 | while read line; do printf "$RED%s$NC\n" "[datanode] $line"; done &
+pidlist="$pidlist $!"
 
 # wait
 for job in $pidlist

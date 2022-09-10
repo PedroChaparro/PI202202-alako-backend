@@ -88,9 +88,9 @@ echo "Starting datanodes"
 hadoop_uservar_su hdfs datanode "${HADOOP_HDFS_HOME}/bin/hdfs" \
     --workers \
     --config "${HADOOP_CONF_DIR}" \
-    --daemon start \
     datanode ${dataStartOpt}
 (( HADOOP_JUMBO_RETCOUNTER=HADOOP_JUMBO_RETCOUNTER + $? ))
+    #--daemon start \
 
 exit ${HADOOP_JUMBO_RETCOUNTER}
 
