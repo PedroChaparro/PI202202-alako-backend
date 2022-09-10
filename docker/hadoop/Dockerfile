@@ -36,7 +36,7 @@ COPY ./files/.bashrc /root/.bashrc
 COPY ./hadoop/core-site.xml /opt/hadoop-3.3.3/etc/hadoop/core-site.xml
 COPY ./hadoop/hdfs-site.xml /opt/hadoop-3.3.3/etc/hadoop/hdfs-site.xml
 COPY ./hadoop/init.sh /opt/init.sh
-COPY ./hadoop/start-dfs.sh /opt/hadoop-3.3.3/sbin/start-dfs.sh
+COPY ./hadoop/start-dfs.sh /opt/hadoop-3.3.3/sbin/custom-start-dfs.sh
 
 RUN mkdir -p /var/opt/hdfs/namenode
 RUN mkdir -p /var/opt/hdfs/datanode
