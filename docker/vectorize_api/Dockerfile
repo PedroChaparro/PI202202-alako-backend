@@ -1,4 +1,4 @@
-FROM python:latest
+FROM python:3.10.6
 
 RUN mkdir -p /usr/src/api
 WORKDIR /usr/src/api
