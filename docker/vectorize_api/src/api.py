@@ -1,7 +1,8 @@
 from bottle import post, run, response, request # Api packages
 
 from sentence_transformers import SentenceTransformer # Vectorize sentences
-model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2') # Download the model
+# model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2') # Download the model
+model = SentenceTransformer('/usr/src/models') # Use local model (Docker image only)
 
 @post('/vectorize')
 def index():

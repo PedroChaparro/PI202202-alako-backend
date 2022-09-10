@@ -7,6 +7,8 @@ COPY . .
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+RUN python src/model.py
+RUN rm src/model.py
 
 EXPOSE 5050
 

@@ -34,6 +34,10 @@ Bottle package has no dependencies other than the Python Standart Library. [See 
 pip install -r requirements.txt
 ```
 
+### Before executing
+
+Comment / delete line 5 on `api.py` file and uncomment line 4 to download and use the model locally.
+
 ### Executing
 
 To start the API run:
