@@ -5,7 +5,7 @@ services:
   # hadoop
 
   hadoopmaster:
-    image: alako/hadoopmaster
+    image: alako/hadoop
     hostname: hadoopmaster
     container_name: hadoopmaster
     restart: unless-stopped
@@ -17,10 +17,10 @@ services:
       - "./hadoop/start-dfs-namenode.sh:/opt/hadoop-3.3.3/sbin/start-dfs-namenode.sh:ro"
       - "./hadoop/start-dfs-secondary.sh:/opt/hadoop-3.3.3/sbin/start-dfs-secondary.sh:ro"
       - "./hadoop/start-dfs-datanode.sh:/opt/hadoop-3.3.3/sbin/start-dfs-datanode.sh:ro"
-      - "./hadoop/init.sh:/opt/init.sh:ro"
+      - "./hadoop/init-master.sh:/opt/init.sh:ro"
 
   hadoopworker:
-    image: alako/hadoopmaster
+    image: alako/hadoop
     container_name: hadoopworker
     restart: unless-stopped
     depends_on:
@@ -28,7 +28,7 @@ services:
     volumes:
       - ./hdfs/worker:/var/opt/hdfs
       - "./hadoop/start-dfs-datanode.sh:/opt/hadoop-3.3.3/sbin/start-dfs-datanode.sh:ro"
-      - "./hadoopworker/init.sh:/opt/init.sh:ro"
+      - "./hadoop/init-worker.sh:/opt/init.sh:ro"
 
   # spark
 

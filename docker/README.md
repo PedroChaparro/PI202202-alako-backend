@@ -17,10 +17,10 @@ Before running any command make sure you are in the `/docker` directory.
 2. Building the images. Make sure you already have the required files in `files/pkg` before building:
 
 
-	To build __Hadoop Master Node__:
+	To build __Hadoop Master Node / Worker Node__:
 
 	```
-	docker build -f ./hadoop/Dockerfile -t alako/hadoopmaster .
+	docker build -f ./hadoop/Dockerfile -t alako/hadoop .
 	```
 
 	To build __Spark Master Node__:
@@ -37,7 +37,7 @@ Before running any command make sure you are in the `/docker` directory.
 
 ## Import File to HDFS
 
-1. Your file must be named `data.json`, place your file inside `files/data/`.
+1. Your file must be named `data.json`, place it as `files/data/data.json`.
 
 2. Execute the command below to import the file. Wait until it finishes:
 
@@ -50,6 +50,8 @@ Before running any command make sure you are in the `/docker` directory.
 	> The HDFS is stored in the local `hdfs` directory. And it's inaccessible by default. Windows users must use a linux-like file system, such as __cygwin__.
 
 ## Run All
+
+> Make sure you already import a file.
 
 1. Start the services by running docker compose as follows:
 

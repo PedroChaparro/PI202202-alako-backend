@@ -2,7 +2,7 @@ version: "3"
 
 services:
   hadoopfilecopy:
-    image: alako/hadoopmaster
+    image: alako/hadoop
     hostname: hadoopmaster
     container_name: hadoopfilecopy
     restart: "no"
