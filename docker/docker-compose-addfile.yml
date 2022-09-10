@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  hadoopfilecopy:
+    image: alako/hadoopmaster
+    hostname: hadoopmaster
+    container_name: hadoopfilecopy
+    restart: "no"
+    volumes:
+      - ./hadoop:/script     # get the script
+      - ./files/data:/data   # get the data
+      - ./hdfs:/var/opt/hdfs # external Hadoop File System
+    command:
+      - /bin/bash
+      - "/script/add-file.sh"

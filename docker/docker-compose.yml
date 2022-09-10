@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   hadoopmaster:
@@ -7,10 +7,8 @@ services:
     container_name: hadoopmaster
     restart: unless-stopped
     ports:
-      - '9870:9870' # web monitor
-      - '9000:9000' # master slot
-        #links:
-        #- spark
+      - "9870:9870" # web monitor
+      - "9000:9000" # master slot
     volumes:
       - ./hdfs:/var/opt/hdfs
       - ./data:/data
@@ -21,8 +19,9 @@ services:
     container_name: sparkmaster
     restart: unless-stopped
     ports:
-      - '8080:8080' # web monitor
-      - '7077:7077' # master slot
+      - "8080:8080" # web monitor
+      - "7077:7077" # master slot
+      - "9868:9868"
 
   sparkworker:
     image: alako/sparkworker
