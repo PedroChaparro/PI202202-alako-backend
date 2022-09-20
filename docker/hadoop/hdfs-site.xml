@@ -23,10 +23,10 @@
     </property>
     <property>
         <name>dfs.namenode.name.dir</name>
-	<value>/var/opt/hdfs/namenode</value>
+		<value>/var/opt/hdfs/namenode</value>
     </property>
     <property>
-        <name>dfs.namenode.data.dir</name>
-	<value>/var/opt/hdfs/datanode</value>
+        <name>dfs.datanode.data.dir</name>
+		<value>/var/opt/hdfs/datanode</value>
     </property>
 </configuration>

@@ -1,35 +1,57 @@
 
 ## Requirements
 
-- Docker 
+- Docker installed.
+- Linux-like file system. Windows users can use www.cygwin.com or similar to run the commands.
 
 ## Setup
 
-Before running any command make sure you are in the `/docker`directory.
+Before running any command make sure you are in the `/docker` directory.
 
 1. Download packages. This script will automatically download the required packages and store them in the `files/pkg` directory:
 
 	```
 	./downloadPackages.sh
 	```
-	> Windows script not available yet. If you are on windows manually download the files with the links inside this file and place them in `files/pkg`.
 
 2. Building the images. Make sure you already have the required files in `files/pkg` before building:
 
 
-	To build __Hadoop Master Node__:
+	To build __Hadoop Master Node / Worker Node__:
 
 	```
-	docker build -f ./hadoop/Dockerfile -t alako/hadoopmaster .
+	docker build -f ./hadoop/Dockerfile -t alako/hadoop .
 	```
 
 	To build __Spark Master Node__:
 
 	```
-	docker build -f ./spark/Dockerfile -t alako/sparkmaster .
+	docker build -f ./sparkmaster/Dockerfile -t alako/sparkmaster .
 	```
 
-## Run
+	To build __Spark Worker Node__:
+
+	```
+	docker build -f ./sparkworker/Dockerfile -t alako/sparkworker .
+	```
+
+## Import File to HDFS
+
+1. Your file must be named `data.json`, place it as `files/data/data.json`.
+
+2. Execute the command below to import the file. Wait until it finishes:
+
+	```
+	docker-compose -f docker-compose-addfile.yml up
+	```
+
+	> Note that all previous files will be destroyed.
+
+	> The HDFS is stored in the local `hdfs` directory. And it's inaccessible by default. Windows users must use a linux-like file system, such as __cygwin__.
+
+## Run All
+
+> Make sure you already import a file.
 
 1. Start the services by running docker compose as follows:
 
@@ -40,4 +62,5 @@ Before running any command make sure you are in the `/docker`directory.
 2. Check Hadoop and Spark state by browsing the web monitors:
 	- Hadoop http://localhost:9870/
 	- Spark http://localhost:8080/
+
 

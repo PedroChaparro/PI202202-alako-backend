@@ -1,21 +1,51 @@
-version: '3'
+version: "3"
 
 services:
-  hadoop:
-    image: alako/hadoopmaster
-    container_name: hadoop
-    restart: unless-stopped
-    ports:
-      - '9870:9870' # web monitor
-      - '9000:9000' # master slot
-    links:
-      - spark
 
-  spark:
-    image: alako/sparkmaster
-    container_name: spark
+  # hadoop
+
+  hadoopmaster:
+    image: alako/hadoop
+    hostname: hadoopmaster
+    container_name: hadoopmaster
     restart: unless-stopped
     ports:
-      - '8080:8080' # web monitor
-      - '7077:7077' # master slot
+      - "9870:9870" # web monitor
+      - "9000:9000" # master slot
+    volumes:
+      - ./hdfs/master:/var/opt/hdfs
+    command:
+      - /opt/init-master.sh
+
+  hadoopworker:
+    image: alako/hadoop
+    container_name: hadoopworker
+    restart: unless-stopped
+    depends_on:
+      - "hadoopmaster"
+    volumes:
+      - ./hdfs/worker:/var/opt/hdfs
+    command:
+      - /opt/init-worker.sh
+
+  # spark
+
+  sparkmaster:
+    image: alako/sparkmaster
+    hostname: sparkmaster
+    container_name: sparkmaster
+    restart: unless-stopped
+    depends_on:
+      - "hadoopmaster"
+    ports:
+      - "8080:8080" # web monitor
+      - "7077:7077" # master slot
+      - "9868:9868"
+
+  sparkworker:
+    image: alako/sparkworker
+    container_name: sparkworker
+    restart: unless-stopped
+    depends_on:
+      - "sparkmaster"
 
