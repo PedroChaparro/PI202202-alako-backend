@@ -29,7 +29,7 @@ object scala_test {
 
 		val sparkDataFrame = sparksession.read.schema(customSchema)
 		  .option("multiline", true)
-		  .json("/home/pedroch/Documents/github/PI202202-alako-data/data-cleaning/data_vectorize/data.json")
+		  .json("hdfs://deb11spark:9000/data.json")
 
 		// *** *** *** *** *** ***
 		// Read query from CLI
