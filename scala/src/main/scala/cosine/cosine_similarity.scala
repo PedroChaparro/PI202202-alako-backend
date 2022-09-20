@@ -29,7 +29,7 @@ object scala_test {
 
 		val sparkDataFrame = sparksession.read.schema(customSchema)
 		  .option("multiline", true)
-		  .json("hdfs://deb11spark:9000/data.json")
+		  .json("hdfs://hadoopmaster:9000/data/data.json")
 
 		// *** *** *** *** *** ***
 		// Read query from CLI
