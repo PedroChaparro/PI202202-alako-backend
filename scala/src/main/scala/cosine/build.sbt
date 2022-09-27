@@ -9,14 +9,21 @@ version := "1.0"
 // libraryDependencies += "org.apache.spark" %% "spark-core" % "1.1.1"
 // libraryDependencies += "org.apache.spark" %% "spark-core" % "1.1.1"
 
-libraryDependencies += "org.scala-lang" % "scala-library" % "2.12.16"
-libraryDependencies += "org.apache.hadoop" % "hadoop-client" % "3.3.3" // hadoop client
+// Solve merge errors (Deduplicateds) when use sbt assembly
+assemblyMergeStrategy in assembly := {
+ case PathList("META-INF", _*) => MergeStrategy.discard
+ case _                        => MergeStrategy.first
+}
+
+libraryDependencies += "org.scala-lang" % "scala-library" % "2.12.16" % "provided"
+libraryDependencies += "org.apache.hadoop" % "hadoop-client" % "3.3.3" % "provided" // hadoop client
 
 val sparkVersion = "3.3.0"
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % sparkVersion,
-  "org.apache.spark" %% "spark-sql" % sparkVersion,
-  "org.apache.spark" %% "spark-mllib" % sparkVersion
+  "org.apache.spark" %% "spark-core" % sparkVersion % "provided",
+  "org.apache.spark" %% "spark-sql" % sparkVersion % "provided",
+  "org.apache.spark" %% "spark-mllib" % sparkVersion % "provided", 
+  "com.typesafe.play" %% "play-json" % "2.9.3"
 )
 
