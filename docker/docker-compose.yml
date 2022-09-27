@@ -42,10 +42,16 @@ services:
       - "7077:7077" # master slot
       - "9868:9868"
 
-  sparkworker:
+  sparkworker1:
     image: alako/sparkworker
-    container_name: sparkworker
+    container_name: sparkworker1
     restart: unless-stopped
     depends_on:
       - "sparkmaster"
-
+  
+  sparkworker2:
+    image: alako/sparkworker
+    container_name: sparkworker2
+    restart: unless-stopped
+    depends_on:
+      - "sparkmaster"
