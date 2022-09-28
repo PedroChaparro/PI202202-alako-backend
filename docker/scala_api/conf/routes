@@ -11,3 +11,5 @@ POST    /search                      controllers.MyClass.fromUserInputToResponse
 
 #POST    /bringVector                       controllers.MyClass.doGetRequest()
 
++nocsrf
+POST /result/save controllers.MyClass.saveResponse()
