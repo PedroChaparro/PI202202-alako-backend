@@ -7,9 +7,12 @@
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 +nocsrf
-POST    /search                      controllers.MyClass.fromUserInputToResponseVector()
+POST    /search                         controllers.MyClass.fromUserInputToResponseVector()
 
-#POST    /bringVector                       controllers.MyClass.doGetRequest()
+#POST    /bringVector                   controllers.MyClass.doGetRequest()
 
 +nocsrf
-POST /result/save controllers.MyClass.saveResponse()
+POST /result/save                       controllers.MyClass.saveResponse()
+
++nocsrf
+POST /result/obtain                     controllers.MyClass.getResponse()

@@ -83,4 +83,51 @@ class MyClass @Inject() (val controllerComponents: ControllerComponents, ws: WSC
     }
   }
 
+  // Get final response from client
+  def getResponse(): Action[AnyContent] = Action {
+    request => {
+      // Validate request
+      val jsonBody: Option[JsValue] = request.body.asJson
+
+      if (jsonBody != None) {
+        try {
+          // Get from json
+          val jobKey: JsValue = jsonBody.get("key")
+
+          if (responses.contains(jobKey.toString())) {
+            // Make response
+            val response: JsValue = Json.obj(
+              "response" -> responses.get(jobKey.toString()),
+              "message" -> "OK",
+              "error" -> false
+            )
+
+            // Remove from map
+            responses = responses.-(jobKey.toString())
+
+            Ok(response)
+          } else {
+            NotFound(Json.obj(
+              "message" -> "Key was not finded. Resource might still be processing.",
+              "error" -> true
+            ))
+          }
+        } catch {
+          case e: NoSuchElementException => {
+            BadRequest(Json.obj(
+              "message" -> "Key (\"key\") field is required.",
+              "error" -> true
+            ))
+          }
+        }
+      } else {
+        // Not json
+        BadRequest(Json.obj(
+          "message" -> "Json body was not provided",
+          "error" -> true
+        ))
+      }
+    }
+  }
+
 }
