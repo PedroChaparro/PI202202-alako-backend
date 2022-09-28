@@ -13,9 +13,9 @@ object scala_test {
 
 		// *** *** *** *** *** ***
 		// Create accumulators
-		val dot_product = sc.doubleAccumulator("DotProductAccumulator")
-		val video_length = sc.doubleAccumulator("VideoLengthAccumulator")
-		val query_length = sc.doubleAccumulator("QueryLenghtAccumulator")
+		// val dot_product = sc.doubleAccumulator("DotProductAccumulator")
+		// val video_length = sc.doubleAccumulator("VideoLengthAccumulator")
+		// val query_length = sc.doubleAccumulator("QueryLenghtAccumulator")
 
 		// *** *** *** *** *** ***
 		// Read json
@@ -62,9 +62,12 @@ object scala_test {
 
 			sparkDataFrame.collect().foreach(row => {
 				// Reset accumulators
-				dot_product.reset()
-				video_length.reset()
-				query_length.reset()
+				// dot_product.reset()
+				// video_length.reset()
+				// query_length.reset()
+				var dot_product:Double = 0.0
+				var video_length:Double = 0.0
+				var query_length:Double = 0.0
 
 				// Get current video data
 				val currvid_title = row.getAs[String]("title")
@@ -75,15 +78,19 @@ object scala_test {
 
 				// Zipped function creates a collection of pairs
 				var ccs = (currvid_vector, query).zipped.map { (v, q) => {
-						dot_product.add(v * q)
-						video_length.add(v * v)
-						query_length.add(q * q)
+						//dot_product.add(v * q)
+						//video_length.add(v * v)
+						//query_length.add(q * q)
+						dot_product += v * q
+						video_length += v * v
+						query_length += q * q
 					}
 				}
 
 				// Get results
-				val cosine_similatiry = dot_product.value / (Math.sqrt(video_length.value) * Math.sqrt(query_length.value))
+				//val cosine_similatiry = dot_product.value / (Math.sqrt(video_length.value) * Math.sqrt(query_length.value))
 				//sparkDataFrame = sparkDataFrame.withColumn("cosine_similarity", when(col("url") === currvid_url, cosine_similatiry).otherwise(col("cosine_similarity")))
+				val cosine_similarity = dot_product / (Math.sqrt(video_length) * Math.sqrt(query_length))
 
 				if (cosine_similatiry >= 0.5) {
 					//println("FIND!: " + currvid_title + " : " + Math.round(cosine_similatiry * 100) + "%")
