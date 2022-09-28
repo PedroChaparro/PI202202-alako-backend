@@ -1,2 +1,6 @@
 *.tar.gz
 *.tgz
+# project inside project and all target folders
+docker/scala_api/project/project/
+**/target/
+/.metals/
