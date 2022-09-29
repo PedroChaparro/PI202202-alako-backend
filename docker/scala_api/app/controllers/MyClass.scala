@@ -25,12 +25,18 @@ class MyClass @Inject() (val controllerComponents: ControllerComponents, ws: WSC
       val userInput = request.body.asFormUrlEncoded.get("search-criteria")(0)
       //transform input in json
       val inputToJson = Json.obj("criteria" -> s"${userInput}")
+
+      // #### #### Python #### ####
       //send json to API python into the body
       val sentPython = ws.url("http://localhost:5050/vectorize")
       //processing response
       sentPython.post(inputToJson).map({ response =>
         println(("response", response.json))
       })
+
+      // #### #### Scala #### ####
+      val uuid: String = java.util.UUID.randomUUID().toString
+      println("Current UUID: " + uuid)
     } catch {
       case e: Exception => println("-------------------------------------Error-------------------------------------")
     }
