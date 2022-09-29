@@ -94,14 +94,14 @@ object scala_test {
 				//sparkDataFrame = sparkDataFrame.withColumn("cosine_similarity", when(col("url") === currvid_url, cosine_similatiry).otherwise(col("cosine_similarity")))
 				val cosine_similarity = dot_product / (Math.sqrt(video_length) * Math.sqrt(query_length))
 
-				if (cosine_similatiry >= 0.5) {
-					//println("FIND!: " + currvid_title + " : " + Math.round(cosine_similatiry * 100) + "%")
+				if (cosine_similarity >= 0.5) {
+					//println("FIND!: " + currvid_title + " : " + Math.round(cosine_similarity * 100) + "%")
 					val vid_object = Json.obj( // Create json object
 						"url" -> currvid_url,
 						"title" -> currvid_title,
 						"thumbnail" -> currvid_thumbnail,
 						"tags" -> currvid_tags,
-						"similarity" -> cosine_similatiry
+						"similarity" -> cosine_similarity
 					)
 
 					arr = arr ++ Json.arr(vid_object)
