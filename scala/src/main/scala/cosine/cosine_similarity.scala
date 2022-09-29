@@ -39,14 +39,19 @@ object scala_test {
 
 		// *** *** *** *** *** ***
 		// Read query from CLI
+		var key: String = ""
 		var query: Array[Double] = Array[Double]()
 
-		for (arg <- args) {
-			// Remove comma
-			if (arg.charAt(arg.length() - 1) == ',') {
-				query = query :+ arg.substring(0, arg.length() - 1).toDouble
-			} else {
-				query = query :+ arg.toDouble
+		for(index <- 0 to 384){
+			if(index == 0){// Key
+				key = args(0)
+			}else{
+				// Remove comma
+				if (args(index).charAt(args(index).length() - 1) == ',') {
+					query = query :+ args(index).substring(0, args(index).length() - 1).toDouble
+				} else {
+					query = query :+ args(index).toDouble
+				}
 			}
 		}
 
