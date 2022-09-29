@@ -24,6 +24,7 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % sparkVersion % "provided",
   "org.apache.spark" %% "spark-sql" % sparkVersion % "provided",
   "org.apache.spark" %% "spark-mllib" % sparkVersion % "provided", 
-  "com.typesafe.play" %% "play-json" % "2.9.3"
+  "com.typesafe.play" %% "play-json" % "2.9.3", 
+  "org.scalaj" %% "scalaj-http" % "2.4.2"
 )
 

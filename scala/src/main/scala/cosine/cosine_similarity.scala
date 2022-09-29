@@ -1,6 +1,7 @@
 import org.apache.spark.sql.{SparkSession, Row}
 import org.apache.spark.sql.types._
-import play.api.libs.json.{JsArray, Json}
+import play.api.libs.json.{JsArray, Json, JsObject}
+import scalaj.http._
 
 object scala_test {
 
@@ -8,7 +9,7 @@ object scala_test {
 
 		// *** *** *** *** *** ***
 		// Create spark session and context
-		val sparksession = SparkSession.builder().appName("dot_product").master("local[*]").getOrCreate()
+		val sparksession = SparkSession.builder().appName("dot_product").getOrCreate()
 		val sc = sparksession.sparkContext
 
 		// *** *** *** *** *** ***
@@ -30,10 +31,6 @@ object scala_test {
 		val sparkDataFrame = sparksession.read.schema(jsonSchema)
 		  .option("multiline", true)
 		  .json("/home/pedroch/Documents/github/PI202202-alako-data/data-cleaning/vectorized_data/data.json")
-
-
-		// Add cs column
-		// sparkDataFrame = sparkDataFrame.withColumn("cosine_similarity", lit(0.0: Double))
 
 		// sparkDataFrame.show()
 
@@ -117,7 +114,22 @@ object scala_test {
 		}
 
 		val response: JsArray =  CS(query)
-		println(response)
+
+		val body: JsObject = Json.obj(
+			"key" -> key,
+			"result" -> response
+		)
+
+		val apiCall = Http("http://localhost:9090/result/save")
+		  .postData(body.toString())
+		  .header("content-type", "application/json")
+		  .asString
+
+		if(apiCall.code == 200){
+			println(key + " job finished successfully")
+		}else{
+			println("Unable to finish " + key + " job")
+		}
 
 	}
 
