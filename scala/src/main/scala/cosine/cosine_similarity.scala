@@ -120,16 +120,27 @@ object scala_test {
 			"result" -> response
 		)
 
-		// *Change to scala API ip*
-		val apiCall = Http("http://localhost:9090/result/save")
-		  .postData(body.toString())
-		  .header("content-type", "application/json")
-		  .asString
+		try{
+			val apiCall = Http("http://localhost:7070/result/save")
+			  .postData(body.toString())
+			  .header("content-type", "application/json")
+			  .asString
 
-		if(apiCall.code == 200){
-			println(key + " job finished successfully")
-		}else{
-			println("Unable to finish " + key + " job")
+			if (apiCall.code == 200) {
+				println("@@@@ @@@@ @@@@ @@@@")
+				println(key + " job was received successfully by Scala API")
+				println("@@@@ @@@@ @@@@ @@@@")
+			}else{
+				println("@@@@ @@@@ @@@@ @@@@")
+				println("ERROR: " + key + " job was NOT received successfully by Scala API")
+				println("@@@@ @@@@ @@@@ @@@@")
+			}
+		}catch {
+			case e: ConnectException => {
+				println("@@@@ @@@@ @@@@ @@@@")
+				println("ERROR: Host was unreachable")
+				println("@@@@ @@@@ @@@@ @@@@")
+			}
 		}
 
 	}
