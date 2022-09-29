@@ -30,7 +30,7 @@ object scala_test {
 
 		val sparkDataFrame = sparksession.read.schema(jsonSchema)
 		  .option("multiline", true)
-		  .json("/home/pedroch/Documents/github/PI202202-alako-data/data-cleaning/vectorized_data/data.json")
+		  .json("hdfs://hadoopmaster:9000/data/data.json")
 
 		// sparkDataFrame.show()
 
@@ -120,6 +120,7 @@ object scala_test {
 			"result" -> response
 		)
 
+		// *Change to scala API ip*
 		val apiCall = Http("http://localhost:9090/result/save")
 		  .postData(body.toString())
 		  .header("content-type", "application/json")
