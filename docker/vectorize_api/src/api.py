@@ -10,8 +10,8 @@ def index():
     response.content_type = 'applicattion/json'
 
     # Simple validation
-    if(payload and 'criteria' in payload):
-        vector = model.encode(payload['criteria']).tolist() # Encode and convert to list
+    if(payload and 'search-criteria' in payload):
+        vector = model.encode(payload['search-criteria']).tolist() # Encode and convert to list
         response.status = 200
         return {'error': False, 'message': 'OK', 'vector': vector}
     else:
