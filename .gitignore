@@ -2,5 +2,6 @@
 *.tgz
 # project inside project and all target folders
 docker/scala_api/project/project/
+docker/scala_api/logs/
 **/target/
 /.metals/

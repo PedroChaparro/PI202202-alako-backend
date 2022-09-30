@@ -16,39 +16,52 @@ class MyClass @Inject() (val controllerComponents: ControllerComponents, ws: WSC
   var responses: Map[String, JsValue] = Map()
 
   //this function allows request user input from web page, request API python an receive the vector
-  def fromUserInputToResponseVector(): Action[AnyContent] = Action { request =>
-    //todo pending to change
-    val jsonBody: Option[JsValue] = request.body.asJson
+  def fromUserInputToResponseVector(): Action[AnyContent] = Action {
+    request => {
+      //obtaining body from request of user from search bar and validating it
+      val jsonBody: Option[JsValue] = request.body.asJson
 
-    try {
-      //obtain user input from input in search bar
-      val userInput = request.body.asFormUrlEncoded.get("search-criteria")(0)
-      //transform input in json
-      val inputToJson = Json.obj("criteria" -> s"${userInput}")
+      if(jsonBody != None) {
+        try {
+          //obtaining json
+          val userInput: JsValue = jsonBody.get("search-criteria")
 
-      // #### #### Python #### ####
-      //send json to API python into the body
-      val sentPython = ws.url("http://localhost:5050/vectorize")
-      //processing response
-      sentPython.post(inputToJson).map({ response =>
-        println(("response", response.json))
-      })
+          val payload: JsValue = Json.obj(
+              "search-criteria" -> userInput
+          )
 
-      // #### #### Scala #### ####
-      val uuid: String = java.util.UUID.randomUUID().toString
-      println("Current UUID: " + uuid)
-    } catch {
-      case e: Exception => println("-------------------------------------Error-------------------------------------")
+          // #### #### Python #### ####
+          //send json to API python into the body
+          val sentPython = ws.url("http://localhost:5050/vectorize")
+          //processing response
+          sentPython.post(payload).map({ response =>
+            println(("response", response.json))
+          })
+
+          // #### #### Scala #### ####
+          val uuid: String = java.util.UUID.randomUUID().toString
+          println("Current UUID: " + uuid)
+
+          Ok(Json.obj(
+            "error" -> false,
+            "message" -> "Response was saved successfully."
+          ))
+        } catch {
+          case e: NoSuchElementException => {
+            BadRequest(Json.obj(
+              "error" -> true,
+              "message" -> "Result (\"result\") and key (\"key\") fields are required."
+            ))
+          }
+        }
+      } else {
+        //Not json
+        BadRequest(Json.obj(
+          "error" -> true,
+          "message" -> "Json body was not provided"
+        ))
+      }
     }
-
-    // todo pending to change
-    jsonBody
-      .map { json =>
-        Ok("Got: " + (json \ "search-criteria"))
-      }
-      .getOrElse {
-        BadRequest("Expecting application/json request body")
-      }
   }
 
   // Save final response from spark job
