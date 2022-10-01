@@ -121,7 +121,7 @@ object cosine_similarity_job {
 		)
 
 		try{
-			val apiCall = Http("http://localhost:7070/result/save")
+			val apiCall = Http("http://localhost:9090/result/save")
 			  .postData(body.toString())
 			  .header("content-type", "application/json")
 			  .asString
