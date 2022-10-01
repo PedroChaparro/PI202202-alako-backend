@@ -17,6 +17,9 @@ assemblyMergeStrategy in assembly := {
  case _                        => MergeStrategy.first
 }
 
+// Custom jar name
+assemblyJarName in assembly := "scala-api-1.0.jar"
+
 // Adds additional packages into Twirl
 //TwirlKeys.templateImports += "sp.controllers._"
 
