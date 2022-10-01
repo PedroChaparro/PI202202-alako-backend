@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+
+  # hadoop worker
+
+  hadoopworker:
+    image: alako/hadoop
+    container_name: hadoopworker
+    restart: unless-stopped
+    ports:
+      - "9867:9867" # metadata operations
+      - "9866:9866" # data transfer
+      - "9865:9865" # web monitor
+      - "9864:9864" # web monitor
+    volumes:
+      - ./files/hdfs/worker:/var/opt/hdfs
+    extra_hosts:
+      - "hadoopmaster:192.168.1.5"
+    command:
+      - /opt/init-worker.sh
+
+  # spark worker
+
+  sparkworker:
+    image: alako/sparkworker
+    container_name: sparkworker
+    restart: unless-stopped
+    ports:
+      - "8581:8581"
+    environment:
+      - SPARK_WORKER_PORT=8581
+    extra_hosts:
+      - "sparkmaster:192.168.1.5"
+

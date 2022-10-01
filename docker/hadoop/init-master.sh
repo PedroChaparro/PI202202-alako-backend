@@ -18,8 +18,8 @@ pidlist="$pidlist $!"
 pidlist="$pidlist $!"
 
 # datanode
-/opt/hadoop-3.3.3/sbin/start-dfs-datanode.sh 2>&1 | while read line; do printf "$RED%s$NC\n" "[datanode] $line"; done &
-pidlist="$pidlist $!"
+#/opt/hadoop-3.3.3/sbin/start-dfs-datanode.sh 2>&1 | while read line; do printf "$RED%s$NC\n" "[datanode] $line"; done &
+#pidlist="$pidlist $!"
 
 # wait
 for job in $pidlist

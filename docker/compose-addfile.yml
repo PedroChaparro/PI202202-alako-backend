@@ -7,7 +7,7 @@ services:
     container_name: hadoopfilecopy
     restart: "no"
     volumes:
-      - ./hdfs/master:/var/opt/hdfs # external HDFS directory
+      - ./files/hdfs/master:/var/opt/hdfs # external HDFS directory
       - ./files/data:/data # mount data.json
     command:
       - /opt/add-file.sh

@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+
+  # hadoop master
+
+  hadoopmaster:
+    image: alako/hadoop
+    hostname: hadoopmaster
+    container_name: hadoopmaster
+    restart: unless-stopped
+    ports:
+      - "9870:9870" # web monitor
+      - "9000:9000" # master slot
+      - "9868:9868" # secondary namenode
+    volumes:
+      - ./files/hdfs/master:/var/opt/hdfs
+      - ./hadoop/hdfs-site.xml:/opt/hadoop-3.3.3/etc/hadoop/hdfs-site.xml
+    command:
+      - /opt/init-master.sh
+
+  # spark master
+
+  sparkmaster:
+    image: alako/sparkmaster
+    hostname: sparkmaster
+    container_name: sparkmaster
+    restart: unless-stopped
+    depends_on:
+      - "hadoopmaster"
+    ports:
+      - "8080:8080" # web monitor
+      - "7077:7077" # master slot
+
+  # vectorize_api
+
+  #vectorize_api:
+    #image: alako/vectorize_api
+    #container_name: vectorize_api
+    #restart: unless-stopped
+    #ports:
+      #- "5050:5050"
+
+
+  # scala api
+
+  #scala_api:
+    #image: alako/vectorize_api
+    #container_name: vectorize_api
+    #restart: unless-stopped
+    #depends_on:
+    # - "vectorize_api"
+    #ports:
+      #- "5050:5050"
