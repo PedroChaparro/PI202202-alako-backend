@@ -18,9 +18,10 @@ RUN rm -r /root/Downloads # clean
 
 # copy config files
 
-COPY ./files/.bashrc          /root/.bashrc
-COPY ./scala_api/buildjars.sh /opt/buildjars.sh
-COPY ./scala_api/init.sh      /opt/init.sh
+COPY ./files/.bashrc                /root/.bashrc
+#COPY ./scala_api/build-scala-api.sh /opt/build-scala-api.sh
+#COPY ./cosine/build-cosine.sh       /opt/build-cosine.sh
+COPY ./scala_api/init.sh            /opt/init.sh
 
 # environment variables
 
