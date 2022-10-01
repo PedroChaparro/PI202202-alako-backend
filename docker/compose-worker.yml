@@ -27,7 +27,7 @@ services:
     container_name: sparkworker
     restart: unless-stopped
     ports:
-      - "8581:8581"
+      - "8581:8581" # spark worker
     environment:
       - SPARK_WORKER_PORT=8581
     extra_hosts:
