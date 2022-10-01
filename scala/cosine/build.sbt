@@ -1,4 +1,4 @@
-name := "Spark Sample"
+name := "Cosine Similarity"
 
 version := "1.0"
 
