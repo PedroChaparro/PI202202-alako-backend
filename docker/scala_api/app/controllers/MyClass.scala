@@ -44,7 +44,7 @@ class MyClass @Inject() (val controllerComponents: ControllerComponents, ws: WSC
 
           Ok(Json.obj(
             "error" -> false,
-            "message" -> "Response was saved successfully."
+            "message" -> "Request received."
           ))
         } catch {
           case e: NoSuchElementException => {
