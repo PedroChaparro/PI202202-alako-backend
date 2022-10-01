@@ -17,22 +17,34 @@ Before running any command make sure you are in the `/docker` directory.
 2. Building the images. Make sure you already have the required files in `files/pkg` before building:
 
 
-	To build __Hadoop Master Node / Worker Node__:
+	To build __alako/hadoop__ (same image for master & worker):
 
 	```
 	docker build -f ./hadoop/Dockerfile -t alako/hadoop .
 	```
 
-	To build __Spark Master Node__:
+	To build __alako/sparkmaster__:
 
 	```
 	docker build -f ./sparkmaster/Dockerfile -t alako/sparkmaster .
 	```
 
-	To build __Spark Worker Node__:
+	To build __alako/sparkworker__:
 
 	```
 	docker build -f ./sparkworker/Dockerfile -t alako/sparkworker .
+	```
+
+	To build __alako/vectorize_api__:
+
+	```
+	docker build -f ./vectorize_api/Dockerfile -t alako/vectorize_api .
+	```
+
+	To build __alako/scala_api__:
+
+	```
+	docker build -f ./scala_api/Dockerfile -t alako/scala_api .
 	```
 
 ## Import File to HDFS
