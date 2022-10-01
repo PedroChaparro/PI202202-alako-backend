@@ -8,9 +8,6 @@ faketty() {
 
 cd /data/cosine
 
-ls -l
-sbt --version
-
 # build
 faketty sbt assembly --verbose
 

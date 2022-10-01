@@ -7,7 +7,7 @@ services:
     container_name: scala-compiler
     restart: "no"
     volumes:
-      - ./scala_api/build-scala.api.sh:/opt/build-scala-api.sh # script
+      - ./scala_api/build-scala-api.sh:/opt/build-scala-api.sh # script
       - ./scala_api:/data/scala_api # source
       - ./files/jar:/data/jar       # jar location
     command:
