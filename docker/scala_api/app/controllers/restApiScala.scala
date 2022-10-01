@@ -10,7 +10,7 @@ import ExecutionContext.Implicits.global
 import scala.language.postfixOps
 
 
-class MyClass @Inject() (val controllerComponents: ControllerComponents, ws: WSClient) extends BaseController {
+class restApiScala @Inject() (val controllerComponents: ControllerComponents, ws: WSClient) extends BaseController {
 
   // Empty / initial map
   var responses: Map[String, JsValue] = Map()

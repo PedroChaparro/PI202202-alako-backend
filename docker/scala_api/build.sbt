@@ -1,5 +1,5 @@
-name := """testing"""
-organization := "sp"
+name := """restApiScala"""
+organization := "alako"
 
 version := "1.0-SNAPSHOT"
 
