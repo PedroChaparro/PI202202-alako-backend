@@ -3,7 +3,7 @@ import org.apache.spark.sql.types._
 import play.api.libs.json.{JsArray, Json, JsObject}
 import scalaj.http._
 
-object scala_test {
+object cosine_similarity_job {
 
 	def main(args: Array[String]): Unit = {
 

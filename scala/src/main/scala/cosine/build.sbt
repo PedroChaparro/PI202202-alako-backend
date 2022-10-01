@@ -15,6 +15,9 @@ assemblyMergeStrategy in assembly := {
  case _                        => MergeStrategy.first
 }
 
+// Custom jar name
+assemblyJarName in assembly := "cosine-similarity-job-1.0.jar"
+
 libraryDependencies += "org.scala-lang" % "scala-library" % "2.12.16" % "provided"
 libraryDependencies += "org.apache.hadoop" % "hadoop-client" % "3.3.3" % "provided" // hadoop client
 

@@ -11,11 +11,11 @@ sbt assembly
 Base command is:
 
 ```
-spark-submit --class scala_test --master spark://sparkmaster:7077 ./target/scala-2.12/'Spark Sample-assembly-1.0.jar'
+spark-submit --class cosine_similarity_job --master spark://sparkmaster:7077 ./target/scala-2.12/cosine-similarity-job-1.0.jar
 ```
 
 But you have to send the video vector as a parameter (e.g):
 
 ```
-spark-submit --class scala_test --master spark://sparkmaster:7077 ./target/scala-2.12/'Spark Sample-assembly-1.0.jar' -0.406119167804718 -0.21913136541843414 -0.09069749712944031 -0.02023126743733883 ...
+spark-submit --class cosine_similarity_job --master spark://sparkmaster:7077 ./target/scala-2.12/cosine-similarity-job-1.0.jar -0.406119167804718 -0.21913136541843414 -0.09069749712944031 -0.02023126743733883 ...
 ```
