@@ -42,7 +42,7 @@ Before running any command make sure you are in the `/docker` directory.
 2. Execute the command below to import the file. Wait until it finishes:
 
 	```
-	docker-compose -f docker-compose-addfile.yml up
+	docker-compose -f compose-addfile.yml up
 	```
 
 	> Note that all previous files will be destroyed.
@@ -56,11 +56,25 @@ Before running any command make sure you are in the `/docker` directory.
 1. Start the services by running docker compose as follows:
 
 	```
-	docker-compose up
+	docker-compose -f compose-all.yml up
 	```
 
 2. Check Hadoop and Spark state by browsing the web monitors:
 	- Hadoop http://localhost:9870/
 	- Spark http://localhost:8080/
+
+## Run master
+
+```
+docker-compose -f compose-master.yml up
+```
+
+## Run worker
+
+Change the IP in compose-worker.yml for the master machine IP. Then run:
+
+```
+docker-compose -f compose-worker.yml up
+```
 
 
