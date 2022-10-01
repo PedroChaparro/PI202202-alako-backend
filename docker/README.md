@@ -47,7 +47,21 @@ Before running any command make sure you are in the `/docker` directory.
 	docker build -f ./scala_api/Dockerfile -t alako/scala_api .
 	```
 
-## Import File to HDFS
+3. Build jar files:
+	
+	To build `scala-api.jar`:
+	
+	```
+	docker-compose -f compose-build-scala-api.yml up
+	```
+
+	To build `cosine-similarity-job.jar`:
+
+	```
+	docker-compose -f compose-build-cosine.yml up
+	```
+
+## Create HDFS and import file
 
 1. Your file must be named `data.json`, place it as `files/data/data.json`.
 
@@ -59,11 +73,11 @@ Before running any command make sure you are in the `/docker` directory.
 
 	> Note that all previous files will be destroyed.
 
-	> The HDFS is stored in the local `hdfs` directory. And it's inaccessible by default. Windows users must use a linux-like file system, such as __cygwin__.
+	> The HDFS is stored in the local `files/hdfs` directory. And it's inaccessible by default. Windows users must use a linux-like file system, such as __cygwin__.
 
 ## Run All
 
-> Make sure you already import a file.
+> Run all is only for development
 
 1. Start the services by running docker compose as follows:
 
