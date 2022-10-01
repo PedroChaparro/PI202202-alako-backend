@@ -40,11 +40,16 @@ services:
         
   # scala api
 
-  #scala_api:
-    #image: alako/vectorize_api
-    #container_name: vectorize_api
-    #restart: unless-stopped
-    #depends_on:
-    # - "vectorize_api"
-    #ports:
-      #- "5050:5050"
+  scala_api:
+    image: alako/scala_api
+    hostname: scala_api
+    container_name: scala_api
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./files/jar:/data/jar      # jar files
+    environment:
+      - PLAY_SECRET=replacemereplaceme123456789
+    command:
+      - /opt/init.sh

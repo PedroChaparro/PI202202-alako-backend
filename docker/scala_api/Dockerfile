@@ -20,9 +20,16 @@ RUN rm -r /root/Downloads # clean
 
 COPY ./files/.bashrc          /root/.bashrc
 COPY ./scala_api/buildjars.sh /opt/buildjars.sh
+COPY ./scala_api/init.sh      /opt/init.sh
 
 # environment variables
 
+# path
 ENV JAVA_HOME=/opt/jdk-11.0.2
 ENV PATH=$PATH:$JAVA_HOME/bin
 ENV PATH=$PATH:/opt/sbt/bin
+
+# play framework
+ENV PLAY_HTTP_PORT=9090
+ENV PLAY_HTTPS_PORT=9091
+
