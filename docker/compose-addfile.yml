@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  hadoopfilecopy:
+    image: alako/hadoop
+    hostname: hadoopmaster
+    container_name: hadoopfilecopy
+    restart: "no"
+    volumes:
+      - ./files/hdfs/master:/var/opt/hdfs # external HDFS directory
+      - ./files/data:/data # mount data.json
+    command:
+      - /opt/add-file.sh
