@@ -50,7 +50,7 @@ class MyClass @Inject() (val controllerComponents: ControllerComponents, ws: WSC
           case e: NoSuchElementException => {
             BadRequest(Json.obj(
               "error" -> true,
-              "message" -> "Result (\"result\") and key (\"key\") fields are required."
+              "message" -> "search-criteria (\"search-criteria\") field is required."
             ))
           }
         }
