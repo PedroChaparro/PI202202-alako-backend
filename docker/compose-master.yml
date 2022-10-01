@@ -48,7 +48,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./files/jar:/data/jar      # jar files
+      - ./files/jar:/data/jar # jar files
     environment:
       - PLAY_SECRET=replacemereplaceme123456789
     command:
