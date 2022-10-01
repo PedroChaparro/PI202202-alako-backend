@@ -2,6 +2,7 @@ import org.apache.spark.sql.{SparkSession, Row}
 import org.apache.spark.sql.types._
 import play.api.libs.json.{JsArray, Json, JsObject}
 import scalaj.http._
+import java.net.ConnectException
 
 object cosine_similarity_job {
 
@@ -139,6 +140,11 @@ object cosine_similarity_job {
 			case e: ConnectException => {
 				println("@@@@ @@@@ @@@@ @@@@")
 				println("ERROR: Host was unreachable")
+				println("@@@@ @@@@ @@@@ @@@@")
+			}
+			case _: Throwable => {
+				println("@@@@ @@@@ @@@@ @@@@")
+				println("ERROR: Unexpected error occur")
 				println("@@@@ @@@@ @@@@ @@@@")
 			}
 		}
