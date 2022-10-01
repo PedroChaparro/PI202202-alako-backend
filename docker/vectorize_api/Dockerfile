@@ -3,7 +3,7 @@ FROM python:3.10.6
 RUN mkdir -p /usr/src/api
 WORKDIR /usr/src/api
 
-COPY . .
+COPY ./vectorize_api .
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
