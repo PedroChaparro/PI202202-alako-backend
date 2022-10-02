@@ -8,6 +8,8 @@ services:
     restart: "no"
     volumes:
       - ./files/hdfs/master:/var/opt/hdfs # external HDFS directory
+      - ./files/hdfs/worker:/var/opt/hdfsworker # worker HDFS for cleaning
       - ./files/data:/data # mount data.json
+      - ./hadoop/add-file.sh:/opt/add-file.sh # script
     command:
       - /opt/add-file.sh

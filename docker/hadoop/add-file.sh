@@ -11,6 +11,7 @@ message "Starting ssh daemon"
 
 message "Cleaning HDFS"
 rm -r /var/opt/hdfs/*
+rm -r /var/opt/hdfsworker/*
 /opt/hadoop-3.3.3/bin/hdfs namenode -format -force
 
 message "Starting HDFS"
@@ -23,7 +24,11 @@ message "Create HDFS /data directory"
 message "Add file as /data/data.json"
 /opt/hadoop-3.3.3/bin/hdfs dfs -put /data/data.json /data/data.json
 
+/opt/hadoop-3.3.3/bin/hdfs dfs -ls /data/
+
 message "Stopping HDFS"
-/opt/hadoop-3.3.3/sbin/stop-dfs.sh 2>&1
+/opt/hadoop-3.3.3/sbin/stop-all.sh 2>&1
+
+ps -aux
 
 message "Finished"

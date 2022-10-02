@@ -15,8 +15,10 @@ services:
       - "9868:9868" # secondary namenode
     volumes:
       - ./files/hdfs/master:/var/opt/hdfs
+      - ./hadoop/init-master.sh:/opt/init-master.sh
     command:
       - /opt/init-master.sh
+    stop_grace_period: 60s
 
   # spark master
 
@@ -61,6 +63,8 @@ services:
     image: alako/hadoop
     container_name: hadoopworker
     restart: unless-stopped
+    depends_on:
+      - "hadoopmaster"
     ports:
       - "9867:9867" # metadata operations
       - "9866:9866" # data transfer
@@ -68,15 +72,19 @@ services:
       - "9864:9864" # web monitor
     volumes:
       - ./files/hdfs/worker:/var/opt/hdfs
+      - ./hadoop/init-worker.sh:/opt/init-worker.sh
     command:
       - /opt/init-worker.sh
+    stop_grace_period: 60s
 
-  # spark worker
+  ## spark worker
 
   sparkworker:
     image: alako/sparkworker
     container_name: sparkworker
     restart: unless-stopped
+    depends_on:
+      - "sparkmaster"
     ports:
       - "8581:8581" # spark worker
     environment:
