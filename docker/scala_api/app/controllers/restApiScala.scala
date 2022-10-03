@@ -2,13 +2,14 @@ package controllers
 
 import javax.inject.Inject
 import play.api.mvc.{Action, AnyContent, BaseController, ControllerComponents}
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.{JsArray, JsValue, Json, JsSuccess, JsError, JsResult}
 import play.api.libs.ws._
+import org.apache.spark.launcher.SparkLauncher
+import org.apache.spark.launcher.SparkAppHandle
 
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import scala.language.postfixOps
-
 
 class restApiScala @Inject() (val controllerComponents: ControllerComponents, ws: WSClient) extends BaseController {
 
@@ -30,21 +31,48 @@ class restApiScala @Inject() (val controllerComponents: ControllerComponents, ws
               "search-criteria" -> userInput
           )
 
-          // #### #### Python #### ####
-          //send json to API python into the body
-          val sentPython = ws.url("http://localhost:5050/vectorize")
-          //processing response
-          sentPython.post(payload).map({ response =>
-            println(("response", response.json))
-          })
-
           // #### #### Scala #### ####
           val uuid: String = java.util.UUID.randomUUID().toString
           println("Current UUID: " + uuid)
 
+          // #### #### Python #### ####
+          //send json to API python into the body
+          val sentPython = ws.url("http://vectorize_api:5050/vectorize")
+          //processing response
+          sentPython.post(payload).map({ response =>
+            val jsonBody: JsValue = response.json
+            val vectorResult: JsResult[Array[Double]] = (jsonBody \ "vector").validate[Array[Double]]
+            val vector: Array[Double] = vectorResult.get
+
+            // create spark job
+            val sparkjob = new SparkLauncher()
+              .setJavaHome("/opt/jdk-11.0.2")
+              .setSparkHome("/opt/spark-3.3.0")
+              .setMaster("spark://sparkmaster:7077")
+              .setAppResource("/data/jar/cosine-similarity-job-1.0.jar")
+              .setMainClass("cosine_similarity_job")
+              .setDeployMode("client")
+              .addAppArgs(uuid)
+
+            // pass vector
+            for (vect <- vector) {
+              sparkjob.addAppArgs(vect.toString)
+              println(vect.toString)
+            }
+
+            // run
+            val appHandle : SparkAppHandle = sparkjob.startApplication();
+            println("Running spark job ");
+
+          })
+
+
+
+
           Ok(Json.obj(
             "error" -> false,
-            "message" -> "Request received."
+            "message" -> "Request received.",
+            "uuid" -> uuid
           ))
         } catch {
           case e: NoSuchElementException => {
@@ -77,6 +105,8 @@ class restApiScala @Inject() (val controllerComponents: ControllerComponents, ws
           val jobResults: JsValue = jsonBody.get("result")
           val jobKey: JsValue = jsonBody.get("key")
           responses = responses.+(jobKey.toString() -> jobResults)
+
+          println("Response was saved successfully.")
 
           Ok(Json.obj(
             "error" -> false,
@@ -127,7 +157,7 @@ class restApiScala @Inject() (val controllerComponents: ControllerComponents, ws
             Ok(response)
           } else {
             NotFound(Json.obj(
-              "message" -> "Key was not finded. Resource might still be processing.",
+              "message" -> "Key was not found. Resource might still be processing.",
               "error" -> true
             ))
           }
