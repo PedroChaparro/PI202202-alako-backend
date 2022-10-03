@@ -9,5 +9,6 @@ services:
     volumes:
       - ./cosine:/data/cosine # source
       - ./files/jar:/data/jar # jar location
+      - ./files/sbtcache:/root/.cache # cache
     command:
       - /data/cosine/build-cosine.sh

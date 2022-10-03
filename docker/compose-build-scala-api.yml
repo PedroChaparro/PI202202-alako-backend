@@ -10,5 +10,6 @@ services:
       - ./scala_api/build-scala-api.sh:/opt/build-scala-api.sh # script
       - ./scala_api:/data/scala_api # source
       - ./files/jar:/data/jar       # jar location
+      - ./files/sbtcache:/root/.cache # cache
     command:
       - /opt/build-scala-api.sh

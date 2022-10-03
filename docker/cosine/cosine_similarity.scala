@@ -122,7 +122,7 @@ object cosine_similarity_job {
 		)
 
 		try{
-			val apiCall = Http("http://localhost:9090/result/save")
+			val apiCall = Http("http://scalaapi:9090/result/save")
 			  .postData(body.toString())
 			  .header("content-type", "application/json")
 			  .asString
