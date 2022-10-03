@@ -51,7 +51,7 @@ services:
       - "9090:9090"
     volumes:
       - ./files/jar:/data/jar      # jar files
-      - ./scala_api/init.sh:/opt/init.sh      # jar files
+      - ./scala_api/init.sh:/opt/init.sh # init
     environment:
       - PLAY_SECRET=replacemereplaceme123456789
     command:

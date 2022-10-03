@@ -40,15 +40,16 @@ services:
         
   # scala api
 
-  scala_api:
+  scalaapi:
     image: alako/scala_api
-    hostname: scala_api
-    container_name: scala_api
+    hostname: scalaapi
+    container_name: scalaapi
     restart: unless-stopped
     ports:
       - "9090:9090"
     volumes:
       - ./files/jar:/data/jar # jar files
+      - ./scala_api/init.sh:/opt/init.sh # init
     environment:
       - PLAY_SECRET=replacemereplaceme123456789
     command:

@@ -19,6 +19,7 @@ services:
       - "hadoopmaster:192.168.1.5"
     command:
       - /opt/init-worker.sh
+    stop_grace_period: 60s
 
   # spark worker
 
