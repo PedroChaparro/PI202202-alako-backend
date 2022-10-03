@@ -57,7 +57,6 @@ class restApiScala @Inject() (val controllerComponents: ControllerComponents, ws
             // pass vector
             for (vect <- vector) {
               sparkjob.addAppArgs(vect.toString)
-              println(vect.toString)
             }
 
             // run
