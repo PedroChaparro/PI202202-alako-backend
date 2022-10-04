@@ -1,0 +1,92 @@
+version: "3"
+
+services:
+
+  # hadoop master
+
+  hadoopmaster:
+    image: alako/hadoop
+    hostname: hadoopmaster
+    container_name: hadoopmaster
+    restart: unless-stopped
+    ports:
+      - "9870:9870" # web monitor
+      - "9000:9000" # master slot
+      - "9868:9868" # secondary namenode
+    volumes:
+      - ./files/hdfs/master:/var/opt/hdfs
+      - ./hadoop/init-master.sh:/opt/init-master.sh
+    command:
+      - /opt/init-master.sh
+    stop_grace_period: 60s
+
+  # spark master
+
+  sparkmaster:
+    image: alako/sparkmaster
+    hostname: sparkmaster
+    container_name: sparkmaster
+    restart: unless-stopped
+    ports:
+      - "8080:8080" # web monitor
+      - "7077:7077" # master slot
+
+  # vectorize_api
+
+  vectorize_api:
+    image: alako/vectorize_api
+    container_name: vectorize_api
+    restart: unless-stopped
+    ports:
+      - "5050:5050"
+
+  # scala api
+
+  scalaapi:
+    image: alako/scala_api
+    hostname: scalaapi
+    container_name: scalaapi
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./files/jar:/data/jar      # jar files
+      - ./scala_api/init.sh:/opt/init.sh # init
+    environment:
+      - PLAY_SECRET=replacemereplaceme123456789
+    command:
+      - /opt/init.sh
+
+  # hadoop worker
+
+  hadoopworker:
+    image: alako/hadoop
+    container_name: hadoopworker
+    restart: unless-stopped
+    depends_on:
+      - "hadoopmaster"
+    ports:
+      - "9867:9867" # metadata operations
+      - "9866:9866" # data transfer
+      - "9865:9865" # web monitor
+      - "9864:9864" # web monitor
+    volumes:
+      - ./files/hdfs/worker:/var/opt/hdfs
+      - ./hadoop/init-worker.sh:/opt/init-worker.sh
+    command:
+      - /opt/init-worker.sh
+    stop_grace_period: 60s
+
+  ## spark worker
+
+  sparkworker:
+    image: alako/sparkworker
+    container_name: sparkworker
+    restart: unless-stopped
+    depends_on:
+      - "sparkmaster"
+    ports:
+      - "8581:8581" # spark worker
+    environment:
+      - SPARK_WORKER_PORT=8581
+

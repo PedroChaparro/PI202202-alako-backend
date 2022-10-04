@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  cosine-compiler:
+    image: alako/scala_api
+    hostname: cosine-compiler
+    container_name: cosine-compiler
+    restart: "no"
+    volumes:
+      - ./cosine:/data/cosine # source
+      - ./files/jar:/data/jar # jar location
+      - ./files/sbtcache:/root/.cache # cache
+    command:
+      - /data/cosine/build-cosine.sh

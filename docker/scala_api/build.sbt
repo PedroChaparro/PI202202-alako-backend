@@ -11,6 +11,12 @@ libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
 libraryDependencies ++= Seq(ws)
 
+val sparkVersion = "3.3.0"
+libraryDependencies += "org.scala-lang" % "scala-library" % "2.12.16"
+libraryDependencies ++= Seq(
+  "org.apache.spark" %% "spark-core" % sparkVersion
+)
+
 assemblyMergeStrategy in assembly := {
  case PathList("META-INF", _*) => MergeStrategy.discard
  case "reference.conf" => MergeStrategy.concat
