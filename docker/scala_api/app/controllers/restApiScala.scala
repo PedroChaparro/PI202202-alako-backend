@@ -7,6 +7,7 @@ import play.api.libs.ws._
 import org.apache.spark.launcher.SparkLauncher
 import org.apache.spark.launcher.SparkAppHandle
 
+import java.util.{Calendar}
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import scala.language.postfixOps
@@ -65,9 +66,6 @@ class restApiScala @Inject() (val controllerComponents: ControllerComponents, ws
 
           })
 
-
-
-
           Ok(Json.obj(
             "error" -> false,
             "message" -> "Request received.",
@@ -100,10 +98,20 @@ class restApiScala @Inject() (val controllerComponents: ControllerComponents, ws
 
       if (jsonBody != None) {
         try {
+          // Get current date
+          val now = Calendar.getInstance().getTime()
+
           // Get from json
           val jobResults: JsValue = jsonBody.get("result")
           val jobKey: JsValue = jsonBody.get("key")
-          responses = responses.+(jobKey.toString() -> jobResults)
+
+          // Store videos and date
+          val resultStore: JsValue = Json.obj(
+            "date" -> now, 
+            "videos" -> jobResults
+          )
+          
+          responses = responses.+(jobKey.toString() -> resultStore)
 
           println("Response was saved successfully.")
 
@@ -145,7 +153,7 @@ class restApiScala @Inject() (val controllerComponents: ControllerComponents, ws
           if (responses.contains(jobKey.toString())) {
             // Make response
             val response: JsValue = Json.obj(
-              "response" -> responses.get(jobKey.toString()),
+              "response" -> responses.get(jobKey.toString()).get("videos"),
               "message" -> "OK",
               "error" -> false
             )
