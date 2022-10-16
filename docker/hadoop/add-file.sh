@@ -20,11 +20,17 @@ message "Starting HDFS"
 
 message "Create HDFS /data directory"
 /opt/hadoop-3.3.3/bin/hdfs dfs -mkdir /data
-
 message "Add file as /data/data.json"
 /opt/hadoop-3.3.3/bin/hdfs dfs -put /data/data.json /data/data.json
 
+message "Create HDFS /jar directory"
+/opt/hadoop-3.3.3/bin/hdfs dfs -mkdir /jar
+message "Add jar cosine-similarity-job-1.0.jar in /jar"
+/opt/hadoop-3.3.3/bin/hdfs dfs -put /data/jar/cosine-similarity-job-1.0.jar /jar/cosine-similarity-job-1.0.jar
+
+/opt/hadoop-3.3.3/bin/hdfs dfs -ls /
 /opt/hadoop-3.3.3/bin/hdfs dfs -ls /data/
+/opt/hadoop-3.3.3/bin/hdfs dfs -ls /jar/
 
 message "Stopping HDFS"
 /opt/hadoop-3.3.3/sbin/stop-all.sh 2>&1

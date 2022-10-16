@@ -16,7 +16,7 @@ services:
     volumes:
       - ./files/hdfs/worker:/var/opt/hdfs
     extra_hosts:
-      - "hadoopmaster:192.168.1.5"
+      - "hadoopmaster:10.0.0.5"
     command:
       - /opt/init-worker.sh
     stop_grace_period: 60s
@@ -32,5 +32,7 @@ services:
     environment:
       - SPARK_WORKER_PORT=8581
     extra_hosts:
-      - "sparkmaster:192.168.1.5"
+      - "sparkmaster:10.0.0.5"
+      - "hadoopmaster:10.0.0.5"
+      - "scalaapi:10.0.0.5"
 
