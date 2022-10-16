@@ -7,15 +7,44 @@ import play.api.libs.ws._
 import org.apache.spark.launcher.SparkLauncher
 import org.apache.spark.launcher.SparkAppHandle
 
-import java.util.{Calendar}
+import java.util.{Calendar, Timer, TimerTask}
 import scala.concurrent._
 import ExecutionContext.Implicits.global
 import scala.language.postfixOps
 
 class restApiScala @Inject() (val controllerComponents: ControllerComponents, ws: WSClient) extends BaseController {
-
   // Empty / initial map
   var responses: Map[String, JsValue] = Map()
+
+  // **** **** **** ****
+  // Clear map interval
+  val timer: Timer = new Timer()
+  val begin: Int = 600000 // Start in 10 minutes
+  val interval: Int = 300000 // Repeat every 5 minutes
+  val timerTask = new TimerTask(){
+    @Override
+    def run(){
+      val now = Calendar.getInstance().getTimeInMillis()
+      var removed: Int = 0
+
+      // Iterate map and compare dates
+      responses.keys.foreach(key => {
+        val videoDate = BigInt(responses.get(key).get("date").toString())
+        val diff = now - videoDate
+        
+        // Remove from map if difference is greater / equal to 10 minutes
+        if(diff >= 600000){
+          responses = responses.-(key)
+          removed += 1
+        }
+
+        if(removed > 0) println("Info: " + removed + " videos were removed from map")
+      })
+    }
+  }
+
+  timer.scheduleAtFixedRate(timerTask, begin, interval)
+  // **** **** **** ****
 
   //this function allows request user input from web page, request API python an receive the vector
   def fromUserInputToResponseVector(): Action[AnyContent] = Action {
@@ -99,7 +128,7 @@ class restApiScala @Inject() (val controllerComponents: ControllerComponents, ws
       if (jsonBody != None) {
         try {
           // Get current date
-          val now = Calendar.getInstance().getTime()
+          val now = Calendar.getInstance().getTimeInMillis()
 
           // Get from json
           val jobResults: JsValue = jsonBody.get("result")
