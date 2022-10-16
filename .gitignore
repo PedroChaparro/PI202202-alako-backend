@@ -1,0 +1,15 @@
+*.tar
+*.tar.gz
+*.tgz
+*.jar
+
+docker/scala/project/target/**
+docker/scala/target/**
+docker/files/hdfs/master/**
+docker/files/hdfs/worker/**
+
+docker/scala_api/project/project/
+docker/scala_api/logs/
+**/target/
+/.metals/
+
