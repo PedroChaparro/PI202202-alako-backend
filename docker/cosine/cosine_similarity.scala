@@ -4,6 +4,8 @@ import play.api.libs.json.{JsArray, Json, JsObject}
 import scalaj.http._
 import java.net.ConnectException
 
+object DoneByLimit extends Exception {}
+
 object cosine_similarity_job {
 
 	def main(args: Array[String]): Unit = {
@@ -56,61 +58,74 @@ object cosine_similarity_job {
 		// *** *** *** *** *** ***
 		// Algorithm
 		def CS(query: Array[Double]): JsArray = {
-
 			// Json response
 			var arr: JsArray = new JsArray()
+            var vidsCounter: Int = 0
 
-			// Testing with filter
-			// val rdd = sc.parallelize(sparkDataFrame.collect()
+			try{
+				sparkDataFrame.collect().foreach(row => {
+					// Reset accumulators
+					// dot_product.reset()
+					// video_length.reset()
+					// query_length.reset()
+					var dot_product: Double = 0.0
+					var video_length: Double = 0.0
+					var query_length: Double = 0.0
+					// println("Row")
 
-			sparkDataFrame.collect().foreach(row => {
-				// Reset accumulators
-				// dot_product.reset()
-				// video_length.reset()
-				// query_length.reset()
-				var dot_product:Double = 0.0
-				var video_length:Double = 0.0
-				var query_length:Double = 0.0
+					// Get current video data
+					val currvid_title = row.getAs[String]("title")
+					val currvid_url = row.getAs[String]("url")
+					val currvid_tags = row.getAs[String]("tags")
+					val currvid_thumbnail = row.getAs[String]("thumbnail")
+					val currvid_vector = row.getAs[scala.collection.mutable.ArraySeq[Double]]("vector").toArray
 
-				// Get current video data
-				val currvid_title = row.getAs[String]("title")
-				val currvid_url = row.getAs[String]("url")
-				val currvid_tags =  row.getAs[String]("tags")
-				val currvid_thumbnail = row.getAs[String]("thumbnail")
-				val currvid_vector = row.getAs[scala.collection.mutable.ArraySeq[Double]]("vector").toArray
-
-				// Zipped function creates a collection of pairs
-				var ccs = (currvid_vector, query).zipped.map { (v, q) => {
-						//dot_product.add(v * q)
-						//video_length.add(v * v)
-						//query_length.add(q * q)
-						dot_product += v * q
-						video_length += v * v
-						query_length += q * q
+					// Zipped function creates a collection of pairs
+					var ccs = (currvid_vector, query).zipped.map { (v, q) => {
+							//dot_product.add(v * q)
+							//video_length.add(v * v)
+							//query_length.add(q * q)
+							dot_product += v * q
+							video_length += v * v
+							query_length += q * q
+						}
 					}
+
+					// Get results
+					//val cosine_similatiry = dot_product.value / (Math.sqrt(video_length.value) * Math.sqrt(query_length.value))
+					//sparkDataFrame = sparkDataFrame.withColumn("cosine_similarity", when(col("url") === currvid_url, cosine_similatiry).otherwise(col("cosine_similarity")))
+					val cosine_similarity = dot_product / (Math.sqrt(video_length) * Math.sqrt(query_length))
+
+					if (cosine_similarity >= 0.6) {
+						//println("FIND!: " + currvid_title + " : " + Math.round(cosine_similarity * 100) + "%")
+						val vid_object = Json.obj( // Create json object
+							"url" -> currvid_url,
+							"title" -> currvid_title,
+							"thumbnail" -> currvid_thumbnail,
+							"tags" -> currvid_tags,
+							"similarity" -> cosine_similarity
+						)
+
+						arr = arr ++ Json.arr(vid_object)
+						vidsCounter += 1
+
+						// Throw custom exception
+						if (vidsCounter == 21) throw DoneByLimit;
+					}
+
+				})
+
+				return arr
+			}catch{
+				// Capture custom exception
+				case DoneByLimit => {
+					// println("Interrump job due to video limit")
+					return arr
 				}
-
-				// Get results
-				//val cosine_similatiry = dot_product.value / (Math.sqrt(video_length.value) * Math.sqrt(query_length.value))
-				//sparkDataFrame = sparkDataFrame.withColumn("cosine_similarity", when(col("url") === currvid_url, cosine_similatiry).otherwise(col("cosine_similarity")))
-				val cosine_similarity = dot_product / (Math.sqrt(video_length) * Math.sqrt(query_length))
-
-				if (cosine_similarity >= 0.5) {
-					//println("FIND!: " + currvid_title + " : " + Math.round(cosine_similarity * 100) + "%")
-					val vid_object = Json.obj( // Create json object
-						"url" -> currvid_url,
-						"title" -> currvid_title,
-						"thumbnail" -> currvid_thumbnail,
-						"tags" -> currvid_tags,
-						"similarity" -> cosine_similarity
-					)
-
-					arr = arr ++ Json.arr(vid_object)
+				case _ => {
+					return new JsArray()
 				}
-
-			})
-
-			return arr
+			}
 
 		}
 
