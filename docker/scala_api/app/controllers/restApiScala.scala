@@ -37,9 +37,9 @@ class restApiScala @Inject() (val controllerComponents: ControllerComponents, ws
           responses = responses.-(key)
           removed += 1
         }
-
-        if(removed > 0) println("Info: " + removed + " videos were removed from map")
       })
+
+      if(removed > 0) println("Info: " + removed + " videos were removed from map")
     }
   }
 
