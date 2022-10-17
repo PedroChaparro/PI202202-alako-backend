@@ -46,12 +46,13 @@ class restApiScala @Inject() (val controllerComponents: ControllerComponents, ws
 
             // create spark job
             val sparkjob = new SparkLauncher()
-              .setJavaHome("/opt/jdk-11.0.2")
+              .setConf(org.apache.spark.launcher.SparkLauncher.DRIVER_EXTRA_JAVA_OPTIONS, "--add-exports java.base/sun.nio.ch=ALL-UNNAMED") // runtime dependency for java 17
+              .setJavaHome("/opt/jdk-17.0.2")
               .setSparkHome("/opt/spark-3.3.0")
               .setMaster("spark://sparkmaster:7077")
-              .setAppResource("/data/jar/cosine-similarity-job-1.0.jar")
+              .setAppResource("hdfs://hadoopmaster:9000/jar/cosine-similarity-job-1.0.jar")
               .setMainClass("cosine_similarity_job")
-              .setDeployMode("client")
+              .setDeployMode("cluster")
               .addAppArgs(uuid)
 
             // pass vector
