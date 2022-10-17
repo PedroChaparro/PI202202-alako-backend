@@ -96,7 +96,7 @@ object cosine_similarity_job {
 					//sparkDataFrame = sparkDataFrame.withColumn("cosine_similarity", when(col("url") === currvid_url, cosine_similatiry).otherwise(col("cosine_similarity")))
 					val cosine_similarity = dot_product / (Math.sqrt(video_length) * Math.sqrt(query_length))
 
-					if (cosine_similarity >= 0.6) {
+					if (cosine_similarity >= 0.55) {
 						//println("FIND!: " + currvid_title + " : " + Math.round(cosine_similarity * 100) + "%")
 						val vid_object = Json.obj( // Create json object
 							"url" -> currvid_url,
