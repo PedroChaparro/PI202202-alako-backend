@@ -31,7 +31,7 @@ This project includes the following college subjects: Web development, TI design
   <img src="https://user-images.githubusercontent.com/62714297/198428042-e1f5de41-217b-448f-b92d-756d610e6c55.jpg" width="680px"/>
 </p>
 
-- Search algorithm (See [this](https://github.com/PedroChaparro/PI202202-alako-backend/tree/main/docker/cosine) folder for more details:
+- Search algorithm (See [this](https://github.com/PedroChaparro/PI202202-alako-backend/tree/main/docker/cosine) folder for more details):
 
 The following is an example of the results obtained after executing the cosine-similarity algorithm on Apache Spark cluster:
 
