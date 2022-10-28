@@ -14,8 +14,8 @@ This project includes the following college subjects: Web development, TI design
 - Docker, docker-compose.
 - Python: [sentence-transformers](https://www.sbert.net/docs/package_reference/models.html), Bottle Web Framework.
 - Scala: Play Web Framework, org.apache.spark.sql, org.apache.spark.launcher.SparkLauncher. 
-- Spark.
-- Hadoop. 
+- Apache Spark.
+- Apache Hadoop.
 
 ## Results
 
@@ -33,7 +33,7 @@ This project includes the following college subjects: Web development, TI design
 
 - Search algorithm (See [this](https://github.com/PedroChaparro/PI202202-alako-backend/tree/development/docker/cosine) folder for more details:
 
-The following is an example of the results obtained after executing the cosine-similarity algorithm on spark cluster:
+The following is an example of the results obtained after executing the cosine-similarity algorithm on Apache Spark cluster:
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/62714297/198425156-a3d0fab8-a92c-4fc2-b948-f49e1bbd0dc3.jpg" width="680px"/>
